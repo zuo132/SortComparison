@@ -1,0 +1,139 @@
+// -------------------------------------------------------------------------
+
+/**
+ *  This class contains static methods that implementing sorting of an array of numbers
+ *  using different sort algorithms.
+ *
+ *  @author Zuomin Xie
+ *  @version HT 2019
+ */
+
+ class SortComparison {
+
+    /**
+     * Sorts an array of doubles using InsertionSort.
+     * This method is static, thus it can be called as SortComparison.sort(a)
+     * @param a: An unsorted array of doubles.
+     * @return array sorted in ascending order.
+     *
+     */
+    static double [] insertionSort (double a[]){
+    	for (int i = 1; i < a.length; i ++) {
+    		double num = a[i];
+    		int j = i;
+    		for (; j > 0 && num < a[j-1]; j--) a[j] = a[j-1];
+    		a[j] = num;
+    	}
+    	return a;
+    }//end insertionsort
+
+    /**
+     * Sorts an array of doubles using Quick Sort.
+     * This method is static, thus it can be called as SortComparison.sort(a)
+     * @param a: An unsorted array of doubles.
+     * @return array sorted in ascending order
+     *
+     */
+    static double [] quickSort (double a[]){
+    	
+
+    }//end quicksort
+
+    /**
+     * Sorts an array of doubles using Merge Sort.
+     * This method is static, thus it can be called as SortComparison.sort(a)
+     * @param a: An unsorted array of doubles.
+     * @return array sorted in ascending order
+     *
+     */
+    /**
+     * Sorts an array of doubles using iterative implementation of Merge Sort.
+     * This method is static, thus it can be called as SortComparison.sort(a)
+     *
+     * @param a: An unsorted array of doubles.
+     * @return after the method returns, the array must be in ascending sorted order.
+     */
+
+    static double[] mergeSortIterative (double a[]) {
+
+		 //todo: implement the sort
+	
+    }//end mergesortIterative
+    
+    
+    
+    /**
+     * Sorts an array of doubles using recursive implementation of Merge Sort.
+     * This method is static, thus it can be called as SortComparison.sort(a)
+     *
+     * @param a: An unsorted array of doubles.
+     * @return after the method returns, the array must be in ascending sorted order.
+     */
+    static double[] mergeSortRecursive (double a[]) {
+    	double[] aux = new double[a.length];
+    	for (int i = 0; i < a.length; i++) aux[i] = a[i];
+    	mergeSortRecursive(a, aux, 0, a.length-1);
+    	return a;
+   }//end mergeSortRecursive
+    
+    private static void mergeSortRecursive(double[] arr, double[] aux, int low, int high) {
+    	if (high - low < 10) {
+    		insertionSort(arr, low, high);
+    		return;
+    	}
+    	int mid = low + (high - low) / 2;
+    	mergeSortRecursive(aux, arr, low, mid);
+    	mergeSortRecursive(aux, arr, mid+1, high);
+    	if (arr[mid] < arr[mid+1]) return;
+    	merge(arr, aux, low, mid ,high);
+    }
+    
+    private static void merge(double[] arr, double[] aux, int low, int mid, int high) {
+    	int i = low;
+    	int j = mid + 1;
+    	for (int k = low; k <= high; k++) {
+    		if (i > mid) aux[k] = arr[j++];
+    		else if (j > high) aux[k] = arr[i++];
+    		else if (arr[i] > aux[j]) arr[k] = arr[j++];
+    		else aux[k] = arr[i++];
+    	}
+    }
+    
+    private static void insertionSort(double[] arr, int low, int high) {
+    	for (int i = low + 1; i <= high; i++) {
+    		double num = arr[i];
+    		int j = i;
+    		for (; j > 0 && arr[j-1] > num; j--) arr[j] = arr[j-1];
+    		arr[j] = num;
+    	}
+    }
+    
+    /**
+     * Sorts an array of doubles using Selection Sort.
+     * This method is static, thus it can be called as SortComparison.sort(a)
+     * @param a: An unsorted array of doubles.
+     * @return array sorted in ascending order
+     *
+     */
+    static double [] selectionSort (double a[]){
+    	for (int i = 0; i < a.length - 1; i++) {
+    		int minIndex = i;
+    		for (int j = i + 1; j < a.length; j++) {
+    			if (a[minIndex] > a[j]) minIndex = j;
+    		}
+    		double tmp = a[i];
+    		a[i] = a[minIndex];
+    		a[minIndex] = tmp;
+    	}
+    	return a;
+    }//end selectionsort
+
+   
+
+
+    public static void main(String[] args) {
+
+        //todo: do experiments as per assignment instructions
+    }
+
+ }//end class

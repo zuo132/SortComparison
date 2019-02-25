@@ -4,7 +4,7 @@
  *  This class contains static methods that implementing sorting of an array of numbers
  *  using different sort algorithms.
  *
- *  @author Zuomin Xie
+ *  @author Zuomin Xie 17328867
  *  @version HT 2019
  */
 
@@ -18,6 +18,7 @@
      *
      */
     static double [] insertionSort (double a[]){
+    	if (a.length <= 1) return a;
     	for (int i = 1; i < a.length; i ++) {
     		double num = a[i];
     		int j = i;
@@ -35,10 +36,33 @@
      *
      */
     static double [] quickSort (double a[]){
-    	
-
+    	if (a.length <= 1) return a;
+    	quickSort(a, 0, a.length-1);
+    	return a;
     }//end quicksort
 
+    private static void quickSort(double[] a, int left, int right) {
+    	if (left >= right) return;
+    	double pivot = a[left + (right - left)/2];
+    	int partitionPoint = partition(a, left, right, pivot);
+    	quickSort(a, left, partitionPoint-1);
+    	quickSort(a, partitionPoint, right);
+    }
+    
+    private static int partition(double[] a, int left, int right, double pivot) {
+    	while (left <= right) {
+    		while (a[left] < pivot) left++;
+    		while (a[right] > pivot) right--;
+    		if (left <= right) {
+    			double tmp = a[left];
+    			a[left] = a[right];
+    			a[right] = tmp;
+    			right--;
+    			left++;
+    		}
+    	}
+    	return left;
+    }
     /**
      * Sorts an array of doubles using Merge Sort.
      * This method is static, thus it can be called as SortComparison.sort(a)
@@ -55,11 +79,16 @@
      */
 
     static double[] mergeSortIterative (double a[]) {
-
-		 //todo: implement the sort
-	
+    	if (a.length <= 1) return a;
+    	int n = a.length;
+    	double[] aux = new double[n];
+    	for (int size = 1; size < n; size = size*2) {
+    		for (int low = 0; low < n-size; low+=size*2) {
+    			merge(a, aux, low, low+size-1,less(low+size*2-1, n-1));
+    		}
+    	}
+    	return a;
     }//end mergesortIterative
-    
     
     
     /**
@@ -70,6 +99,7 @@
      * @return after the method returns, the array must be in ascending sorted order.
      */
     static double[] mergeSortRecursive (double a[]) {
+    	if (a.length <= 1) return a;
     	double[] aux = new double[a.length];
     	for (int i = 0; i < a.length; i++) aux[i] = a[i];
     	mergeSortRecursive(a, aux, 0, a.length-1);
@@ -82,20 +112,23 @@
     		return;
     	}
     	int mid = low + (high - low) / 2;
-    	mergeSortRecursive(aux, arr, low, mid);
-    	mergeSortRecursive(aux, arr, mid+1, high);
+    	mergeSortRecursive(arr, aux, low, mid);
+    	mergeSortRecursive(arr, aux, mid+1, high);
     	if (arr[mid] < arr[mid+1]) return;
     	merge(arr, aux, low, mid ,high);
     }
     
     private static void merge(double[] arr, double[] aux, int low, int mid, int high) {
+    	for (int k = low; k <= high; k++) {
+    		aux[k] = arr[k];
+    	}
     	int i = low;
     	int j = mid + 1;
     	for (int k = low; k <= high; k++) {
-    		if (i > mid) aux[k] = arr[j++];
-    		else if (j > high) aux[k] = arr[i++];
-    		else if (arr[i] > aux[j]) arr[k] = arr[j++];
-    		else aux[k] = arr[i++];
+    		if (i > mid) arr[k] = aux[j++];
+    		else if (j > high) arr[k] = aux[i++];
+    		else if (arr[j] < aux[i]) arr[k] = aux[j++];
+    		else arr[k] = aux[i++];
     	}
     }
     
@@ -116,6 +149,7 @@
      *
      */
     static double [] selectionSort (double a[]){
+    	if (a.length <= 1) return a;
     	for (int i = 0; i < a.length - 1; i++) {
     		int minIndex = i;
     		for (int j = i + 1; j < a.length; j++) {
@@ -128,7 +162,10 @@
     	return a;
     }//end selectionsort
 
-   
+   private static int less(int num1, int num2) {
+	   if (num1 > num2) return num2;
+	   else return num1;
+   }
 
 
     public static void main(String[] args) {
